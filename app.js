@@ -7,7 +7,6 @@ const qs = require('querystring')
 require('dotenv').config()
 const serviceAccount = require("./spotify-mixer-7dff8-firebase-adminsdk-1nxb7-33f2871a10.json")
 const app = express()
-const port = 3000
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -43,7 +42,6 @@ app.post('/spotify/token', async (req, res) => {
         code: code,
         redirect_uri: process.env.REDIRECT_URI,
     }
-    console.log(requestBody)
     const config = {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -60,6 +58,31 @@ app.post('/spotify/token', async (req, res) => {
     })
 })
 
+app.post('/spotify/token/refresh', (req, res) => {
+    const refreshToken = req.body.refresh_token
+    const requestBody = {
+        client_id: process.env.CLIENT_ID,
+        client_secret: process.env.CLIENT_SECRET,   
+        grant_type: "refresh_token",
+        refresh_token: refreshToken,
+    }
+    const config = {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    }
+    const url = "https://accounts.spotify.com/api/token"
+    axios.post(url, qs.stringify(requestBody), config).then(spotifyRes => {
+        res.send(spotifyRes.data)
+    }).catch((err) => {
+        if (err.status_code)
+            res.status(err.status_code).send(err)
+        else 
+            res.status(500).send(err)
+    })
+})
+
+const port = process.env.PORT || 3000
 app.listen(port, () => {
   console.log(`spotify-mixer-auth listening at http://localhost:${port}`)
 })
