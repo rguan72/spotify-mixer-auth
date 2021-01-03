@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 
 app.post('/token', (req, res) => {
     const spotifyID = req.body.spotifyID;
-    const uid = `spotify:${spotifyID}`;
+    const uid = `${spotifyID}`;
     admin
         .auth()
         .createCustomToken(uid)
