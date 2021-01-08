@@ -35,12 +35,13 @@ app.post('/token', (req, res) => {
 
 app.post('/spotify/token', async (req, res) => {
     const code = req.body.code
+    const other_redir = req.body.other_redir
     const requestBody = {
         client_id: process.env.CLIENT_ID,
         client_secret: process.env.CLIENT_SECRET,   
         grant_type: "authorization_code",
         code: code,
-        redirect_uri: process.env.REDIRECT_URI,
+        redirect_uri: other_redir ? process.env.REDIRECT_URI_AUTHDIR : process.env.REDIRECT_URI,
     }
     const config = {
         headers: {
