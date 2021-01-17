@@ -40,7 +40,7 @@ app.post('/token', (req, res) => {
             res.send({firebaseToken: customToken})
         })
         .catch((error) => {
-            console.log('Error creating token: ', error.response)
+            console.log('Error creating token: ', error.response.data)
         })
 })
 
@@ -65,9 +65,9 @@ app.post('/spotify/token', async (req, res) => {
     }).catch((err) => {
         console.log(err.response)
         if (err.status_code)
-            res.status(err.status_code).send(err.response)
+            res.status(err.status_code).send(err.response.data)
         else 
-            res.status(500).send(err.response)
+            res.status(500).send(err.response.data)
     })
 })
 
@@ -90,9 +90,9 @@ app.post('/spotify/token/refresh', (req, res) => {
     }).catch((err) => {
         console.log(err.response)
         if (err.status_code)
-            res.status(err.status_code).send(err.response)
+            res.status(err.status_code).send(err.response.data)
         else 
-            res.status(500).send(err.response)
+            res.status(500).send(err.response.data)
     })
 })
 
