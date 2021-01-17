@@ -63,6 +63,7 @@ app.post('/spotify/token', async (req, res) => {
     axios.post(url, qs.stringify(requestBody), config).then(spotifyRes => {
         res.send(spotifyRes.data)
     }).catch((err) => {
+        console.log(err)
         if (err.status_code)
             res.status(err.status_code).send(err)
         else 
