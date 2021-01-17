@@ -54,6 +54,7 @@ app.post('/spotify/token', async (req, res) => {
         code: code,
         redirect_uri: other_redir ? process.env.REDIRECT_URI_AUTHDIR : process.env.REDIRECT_URI,
     }
+    console.log(requestBody)
     const config = {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
