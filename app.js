@@ -40,7 +40,7 @@ app.post('/token', (req, res) => {
             res.send({firebaseToken: customToken})
         })
         .catch((error) => {
-            console.log('Error creating token: ', error)
+            console.log('Error creating token: ', error.response)
         })
 })
 
@@ -63,11 +63,11 @@ app.post('/spotify/token', async (req, res) => {
     axios.post(url, qs.stringify(requestBody), config).then(spotifyRes => {
         res.send(spotifyRes.data)
     }).catch((err) => {
-        console.log(err)
+        console.log(err.response)
         if (err.status_code)
-            res.status(err.status_code).send(err)
+            res.status(err.status_code).send(err.response)
         else 
-            res.status(500).send(err)
+            res.status(500).send(err.response)
     })
 })
 
@@ -88,11 +88,11 @@ app.post('/spotify/token/refresh', (req, res) => {
     axios.post(url, qs.stringify(requestBody), config).then(spotifyRes => {
         res.send(spotifyRes.data)
     }).catch((err) => {
-        console.log(err)
+        console.log(err.response)
         if (err.status_code)
-            res.status(err.status_code).send(err)
+            res.status(err.status_code).send(err.response)
         else 
-            res.status(500).send(err)
+            res.status(500).send(err.response)
     })
 })
 
